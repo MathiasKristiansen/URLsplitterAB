@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A/B Test URL Splitter</title>
-  <script>
-    async function splitURL() {
-      const url = document.getElementById('url').value;
-      const response = await fetch('/split-url', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url })
-      });
-      const data = await response.json();
-      document.getElementById('version-a').textContent = data.versionA;
-      document.getElementById('version-b').textContent = data.versionB;
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/B Test URL Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #unique-url {
+            color: blue;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <h1>A/B Test URL Splitter</h1>
-  <label for="url">Enter URL:</label>
-  <input type="text" id="url" required>
-  <button onclick="splitURL()">Split URL</button>
-  <div>
-    <p><strong>Version A:</strong> <span id="version-a"></span></p>
-    <p><strong>Version B:</strong> <span id="version-b"></span></p>
-  </div>
+    <h1>A/B Test URL Generator</h1>
+    <label for="url">Enter Base URL:</label>
+    <input type="text" id="url" placeholder="e.g., www.example.com" required>
+    <button onclick="generateUniqueURL()">Generate Unique URL</button>
+
+    <div style="margin-top: 20px;">
+        <p><strong>Unique URL:</strong> <span id="unique-url"></span></p>
+    </div>
+
+    <script>
+        async function generateUniqueURL() {
+            const url = document.getElementById('url').value;
+            const response = await fetch('/generate-url', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url })
+            });
+            const data = await response.json();
+            document.getElementById('unique-url').textContent = data.uniqueUrl;
+        }
+    </script>
 </body>
 </html>
